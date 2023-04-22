@@ -19,8 +19,7 @@ mv mujoco210 ~/.mujoco/
 # mac
 brew install gcc@9
 
-./bin/examine.py examples/simple_particle.py
-./bin/examine.py examples/example_env_examine.jsonnet
+./bin/examine.py examples/ai_dog.py
 ```
 
 

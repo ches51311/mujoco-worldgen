@@ -345,6 +345,11 @@ class Env(gym.Env):
 
     def step(self, action):
         action = np.asarray(action)
+        #TODO: remove this workaround
+        if action.shape[0] != 6:
+            s = action.size
+            action = np.asarray([action, action]).flatten()
+            action[s:] = 0
         action = np.minimum(action, self.action_space.high)
         action = np.maximum(action, self.action_space.low)
         assert self.action_space.contains(action), (

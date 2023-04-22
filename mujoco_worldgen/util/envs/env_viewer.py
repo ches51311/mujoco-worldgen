@@ -17,6 +17,8 @@ class EnvViewer(MjViewer):
         self.num_action = self.env.action_space.shape[0]
         self.action_mod_index = 0
         self.action = self.zero_action(self.env.action_space)
+        #TODO: remove this workaround
+        self.is_key_right = False
 
     def zero_action(self, action_space):
         if isinstance(action_space, Box):
@@ -52,20 +54,42 @@ class EnvViewer(MjViewer):
             self.env.seed(self.seed)
             self.env_reset()
             self.action = self.zero_action(self.env.action_space)
-        if key == glfw.KEY_A:
-            if isinstance(self.env.action_space, Box):
-                self.action[self.action_mod_index] -= 0.05
-        elif key == glfw.KEY_Z:
-            if isinstance(self.env.action_space, Box):
-                self.action[self.action_mod_index] += 0.05
+        # if key == glfw.KEY_A:
+        #     if isinstance(self.env.action_space, Box):
+        #         self.action[self.action_mod_index] -= 0.05
+        # elif key == glfw.KEY_Z:
+        #     if isinstance(self.env.action_space, Box):
+        #         self.action[self.action_mod_index] += 0.05
+        # elif key == glfw.KEY_K:
+        #     self.action_mod_index = (self.action_mod_index + 1) % self.num_action
+        # elif key == glfw.KEY_J:
+        #     self.action_mod_index = (self.action_mod_index - 1) % self.num_action
+        self.is_key_right = False
+        if key == glfw.KEY_LEFT:
+            self.action[0] = -0.2
+            self.action[1] = 0
+        elif key == glfw.KEY_RIGHT:
+            self.is_key_right = True
+            self.action[0] = 0.2
+            self.action[1] = 0
+        elif key == glfw.KEY_UP:
+            self.action[1] = 0.2
+            self.action[0] = 0
+        elif key == glfw.KEY_DOWN:
+            self.action[1] = -0.2
+            self.action[0] = 0
+        elif key == glfw.KEY_J: # rotate
+            self.action[2] = 0.3
         elif key == glfw.KEY_K:
-            self.action_mod_index = (self.action_mod_index + 1) % self.num_action
-        elif key == glfw.KEY_J:
-            self.action_mod_index = (self.action_mod_index - 1) % self.num_action
-
+            self.action[2] = -0.3
+        elif key == glfw.KEY_SPACE:
+            self.action = np.array([0, 0, 0], np.float32)
         super().key_callback(window, key, scancode, action, mods)
 
     def render(self):
+        if self.is_key_right:
+            self._advance_by_one_step = False
+            self._paused = False
         super().render()
 
         # Display applied external forces.
