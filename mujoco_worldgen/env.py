@@ -2,9 +2,9 @@ import inspect
 import logging
 import hashlib
 
-import gym
+import gymnasium as gym
 import numpy as np
-from gym.spaces import Box, Tuple, Dict
+from gymnasium.spaces import Box, Tuple, Dict
 from mujoco_py import MjSimState
 
 from mujoco_worldgen.util.types import enforce_is_callable
