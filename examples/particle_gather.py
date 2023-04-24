@@ -1,6 +1,6 @@
 import numpy as np
-import gymnasium as gym
-from gymnasium.spaces import Box, Dict
+import gym
+from gym.spaces import Box, Dict
 
 from mujoco_worldgen import Floor, WorldBuilder, Geom, ObjFromXML, WorldParams, Env
 

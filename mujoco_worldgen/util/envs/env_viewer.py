@@ -2,8 +2,8 @@ import numpy as np
 import time
 from mujoco_py import const, MjViewer, ignore_mujoco_warnings
 import glfw
-from gymnasium.spaces import Box
-from gymnasium.spaces import MultiDiscrete
+from gym.spaces import Box
+from gym.spaces import MultiDiscrete
 
 
 class EnvViewer(MjViewer):
@@ -22,7 +22,7 @@ class EnvViewer(MjViewer):
 
     def zero_action(self, action_space):
         if isinstance(action_space, Box):
-            return np.zeros(action_space.shape[0], np.float32)
+            return np.zeros(action_space.shape[0])
         elif isinstance(action_space, MultiDiscrete):
             return action_space.nvec // 2  # assume middle element is "no action" action
 
