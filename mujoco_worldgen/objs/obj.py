@@ -286,7 +286,7 @@ class Obj(object):
                 placement = self.placements[placement_name]
                 for child, _ in self.children[placement_name]:
                     child.size, child.placement = None, None
-                    placement_size = np.array(placement['size'], dtype=np.float)
+                    placement_size = np.array(placement['size'], dtype=np.float64)
                     placement_size[0] -= 2 * world_params.placement_margin
                     placement_size[1] -= 2 * world_params.placement_margin
                     child.generate(random_state, world_params, placement_size)
@@ -350,7 +350,7 @@ class Obj(object):
         assert len(origin) == 3, "Invalid origin: {}".format(origin)
         assert len(self.relative_position) == 2, \
             "Invalid relative_position: {}".format(self.relative_position)
-        self.absolute_position = np.array(origin, dtype=np.float)
+        self.absolute_position = np.array(origin, dtype=np.float64)
         # Note relative_position is X,Y but our absolute_position is X,Y,Z
         self.absolute_position[:2] += self.relative_position
         for placement_name, children in self.children.items():
@@ -363,7 +363,7 @@ class Obj(object):
         for marker in self.markers:
             if marker['relative_xyz'] is not None:
                 relative_xyz = np.array(marker['relative_xyz'], dtype='f8')
-                marker['position'] = relative_xyz * np.array(self.size, dtype=np.float)
+                marker['position'] = relative_xyz * np.array(self.size, dtype=np.float64)
                 for i in range(3):
                     if np.abs(self.size[i]) < 1e-4:
                         marker["position"][i] = relative_xyz[i]

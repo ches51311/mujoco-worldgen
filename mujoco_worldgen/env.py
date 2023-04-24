@@ -2,9 +2,9 @@ import inspect
 import logging
 import hashlib
 
-import gym
+import gymnasium as gym
 import numpy as np
-from gym.spaces import Box, Tuple, Dict
+from gymnasium.spaces import Box, Tuple, Dict
 from mujoco_py import MjSimState
 
 from mujoco_worldgen.util.types import enforce_is_callable
@@ -345,11 +345,6 @@ class Env(gym.Env):
 
     def step(self, action):
         action = np.asarray(action)
-        #TODO: remove this workaround
-        if action.shape[0] != 6:
-            s = action.size
-            action = np.asarray([action, action]).flatten()
-            action[s:] = 0
         action = np.minimum(action, self.action_space.high)
         action = np.maximum(action, self.action_space.low)
         assert self.action_space.contains(action), (
